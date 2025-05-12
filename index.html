@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>グラレコ風インフォグラフィック：緊急ロードサービス手当の流れ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;700&family=Yomogi&family=Zen+Kurenaido&display=swap" rel="stylesheet">
+    <style>
+        /* カスタムスタイル */
+        body {
+            /* グラデーション背景でグラスモーフィズム効果を強調 */
+            background: linear-gradient(135deg, #f8fafc, #e0e7ff);
+            /* 手書き風フォント設定 */
+            font-family: 'Yomogi', 'Zen Kurenaido', 'Kaisei Decol', cursive, sans-serif;
+            color: #334155; /* 本文デフォルトカラー */
+            line-height: 1.6; /* 行間調整 */
+        }
+
+        /* カラースキーム用CSS変数 */
+        :root {
+            --color-fashion-1: #593C47; /* 89, 59, 70 */
+            --color-fashion-2: #F2E63D; /* 242, 230, 60 */
+            --color-fashion-3: #F2C53D; /* 242, 196, 60 */
+            --color-fashion-4: #F25C05; /* 242, 91, 4 */
+            --color-fashion-5: #F24405; /* 242, 68, 4 */
+            --color-subtitle: #475569;
+            --color-section-heading: #1e40af;
+            --color-body-text: #334155;
+        }
+
+        /* 手書き風フォントクラス */
+        .font-handwriting {
+            font-family: 'Yomogi', 'Zen Kurenaido', 'Kaisei Decol', cursive, sans-serif;
+        }
+        .font-yomogi { font-family: 'Yomogi', cursive; }
+        .font-zen { font-family: 'Zen Kurenaido', sans-serif; }
+        .font-kaisei { font-family: 'Kaisei Decol', cursive; }
+
+        /* タイトルスタイル */
+        .main-title {
+            font-size: 32px;
+            font-weight: 700; /* 太字 */
+            font-family: 'Kaisei Decol', cursive;
+            background: linear-gradient(45deg, var(--color-fashion-4), var(--color-fashion-5));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block; /* グラデーション適用のため */
+            padding-bottom: 5px; /* 下線を引くスペース */
+            border-bottom: 3px solid var(--color-fashion-3); /* 手書き風下線 */
+            transform: rotate(-1deg); /* 少し傾ける */
+            margin-bottom: 1rem;
+        }
+
+        /* サブタイトルスタイル */
+        .subtitle {
+            font-size: 16px;
+            color: var(--color-subtitle);
+            font-family: 'Zen Kurenaido', sans-serif;
+        }
+
+        /* セクション見出しスタイル */
+        .section-heading {
+            font-size: 20px; /* 少し大きく */
+            color: var(--color-section-heading);
+            font-weight: 700;
+            font-family: 'Kaisei Decol', cursive;
+            margin-bottom: 1rem;
+            display: inline-flex; /* アイコンとテキストを横並び */
+            align-items: center;
+            gap: 0.5rem; /* アイコンとの間隔 */
+            border-bottom: 2px dashed var(--color-fashion-3); /* 手書き風破線 */
+            padding-bottom: 4px;
+            transform: rotate(-0.5deg);
+        }
+        .section-heading i {
+            color: var(--color-fashion-4);
+        }
+
+        /* 本文テキストスタイル */
+        .body-text {
+            font-size: 14px;
+            color: var(--color-body-text);
+            line-height: 1.6; /* 行間広め */
+            font-family: 'Yomogi', cursive;
+        }
+
+        /* カードスタイル (グラスモーフィズム適用) */
+        .info-card {
+            background-color: rgba(255, 255, 255, 0.6); /* 半透明の白 */
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            border-radius: 12px;
+            border: 1px solid rgba(209, 213, 219, 0.4); /* 細い境界線 */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* 微細シャドウ */
+            padding: 1.5rem; /* 内側余白 */
+            margin-bottom: 1.5rem; /* カード間の余白 */
+            transform: rotate(0.5deg); /* カードも少し傾ける */
+            transition: transform 0.3s ease;
+        }
+        .info-card:hover {
+            transform: rotate(0deg) scale(1.01); /* ホバー時に少し戻す */
+        }
+
+        /* 手書き風囲み線 (例: 重要なステップ用) */
+        .highlight-box {
+            border: 2px dashed var(--color-fashion-4);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            background-color: rgba(252, 165, 165, 0.1); /* 薄い赤背景 */
+            transform: rotate(-1deg);
+        }
+
+        /* 手書き風矢印 (CSSで簡易的に表現) */
+        .arrow {
+            position: relative;
+            padding: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .arrow::after {
+            content: '';
+            position: absolute;
+            bottom: -15px; /* 位置調整 */
+            left: 50%;
+            transform: translateX(-50%) rotate(90deg);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid var(--color-fashion-3); /* 矢印の色 */
+        }
+        .arrow-line::before {
+             content: '';
+             position: absolute;
+             bottom: -5px; /* 矢印の少し上 */
+             left: 50%;
+             transform: translateX(-50%);
+             width: 2px; /* 線の太さ */
+             height: 15px; /* 線の長さ */
+             background-color: var(--color-fashion-3); /* 線の色 */
+        }
+
+        /* キーワード強調 (マーカー風) */
+        .marker-highlight {
+            background: linear-gradient(transparent 60%, var(--color-fashion-2) 60%);
+            padding: 0 0.2em;
+            font-weight: bold;
+            color: var(--color-fashion-1);
+        }
+
+         /* 吹き出しスタイル */
+        .speech-bubble {
+            position: relative;
+            background: rgba(242, 230, 60, 0.3); /* --color-fashion-2 の薄い色 */
+            border-radius: .4em;
+            padding: 1em;
+            border: 1px dashed var(--color-fashion-3);
+            transform: rotate(1deg);
+        }
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 15%;
+            width: 0;
+            height: 0;
+            border: 20px solid transparent;
+            border-top-color: rgba(242, 230, 60, 0.3);
+            border-bottom: 0;
+            border-left: 0;
+            margin-left: -10px;
+            margin-bottom: -19px; /* border-widthに合わせる */
+        }
+
+        /* 3カラムレイアウト用 (ここでは使わないが参考) */
+        .three-columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* レスポンシブ対応 */
+            gap: 1.5rem;
+        }
+
+        /* フッター */
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            font-size: 12px;
+            color: var(--color-subtitle);
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* Font Awesome アイコンの色調整 */
+        .fa-money-bill-wave { color: #22c55e; } /* 緑: 金額 */
+        .fa-car-burst { color: #ef4444; } /* 赤: 緊急 */
+        .fa-clock { color: #3b82f6; } /* 青: 時間 */
+        .fa-building { color: #a855f7; } /* 紫: 拠点 */
+        .fa-envelope { color: #f97316; } /* オレンジ: メール */
+        .fa-file-excel { color: #10b981; } /* エメラルド: Excel */
+        .fa-check-circle { color: #14b8a6; } /* ティール: チェック */
+        .fa-database { color: #6366f1; } /* インディゴ: データ */
+        .fa-paper-plane { color: #ec4899; } /* ピンク: 送信 */
+        .fa-file-invoice-dollar { color: #84cc16; } /* ライム: 請求 */
+        .fa-pencil { color: #6b7280; } /* グレー: 記入 */
+        .fa-file-pdf { color: #dc2626; } /* 赤: PDF */
+        .fa-stamp { color: #4b5563; } /* 濃いグレー: 押印 */
+        .fa-triangle-exclamation { color: #facc15; } /* 黄色: 注意 */
+        .fa-map-marker-alt { color: #0ea5e9; } /* スカイブルー: 場所 */
+
+    </style>
+</head>
+<body class="p-4 md:p-8 font-handwriting">
+
+    <div class="container mx-auto max-w-4xl">
+
+        <header class="flex justify-between items-center mb-8 flex-wrap">
+            <div class="mb-4 md:mb-0">
+                <h1 class="main-title">緊急ロードサービス手当の流れ</h1>
+                <p class="subtitle ml-2">グラフィックレコーディング風インフォグラフィック</p>
+            </div>
+            <div class="text-sm text-gray-500 font-zen">
+                作成日: 2025/05/12 <br>
+                出典: 社内資料
+            </div>
+        </header>
+
+        <main>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+
+                <div class="info-card">
+                    <h2 class="section-heading"><i class="fas fa-money-bill-wave"></i>手当について</h2>
+                    <ul class="list-none space-y-2 body-text">
+                        <li><i class="fas fa-clipboard-check mr-2 text-blue-500"></i>受付: <span class="font-bold text-lg text-green-700">¥5,000</span></li>
+                        <li>
+                            <i class="fas fa-car-burst mr-2 text-red-500"></i>出動:
+                            <ul class="list-none ml-6 mt-1 space-y-1">
+                                <li><span class="font-bold text-lg text-red-700">¥14,000</span> (相当 <span class="marker-highlight">課長以上</span>)</li>
+                                <li><span class="font-bold text-lg text-red-600">¥12,000</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                     <h2 class="section-heading"><i class="fas fa-building"></i>京都SC、洛南SC 宿直</h2>
+                     <ul class="list-none space-y-2 body-text">
+                        <li><i class="fas fa-clock mr-2 text-blue-500"></i><span class="font-bold text-lg text-purple-700">¥14,000</span> (出動が<span class="marker-highlight">0時まで</span>)</li>
+                        <li><i class="fas fa-briefcase mr-2 text-gray-500"></i><span class="font-bold text-lg text-purple-600">¥12,000</span> (次の日は<span class="marker-highlight">通常出勤</span>)</li>
+                        <li><i class="fas fa-bed mr-2 text-orange-500"></i><span class="font-bold text-lg text-purple-500">¥10,000</span> (出動が<span class="marker-highlight">0時以降</span>、次の日<span class="marker-highlight">休み</span>)</li>
+                     </ul>
+                </div>
+            </div>
+
+             <div class="arrow arrow-line mb-6"></div>
+
+            <div class="info-card">
+                <h2 class="section-heading"><i class="fas fa-tasks"></i>緊急ロードサービス手当 お仕事の流れ</h2>
+                <ol class="relative border-l-2 border-dashed border-yellow-500 ml-4 space-y-6 body-text">
+                    <li class="ml-6">
+                        <span class="absolute flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full -left-4 ring-4 ring-white">
+                            <i class="fas fa-envelope text-blue-600"></i>
+                        </span>
+                        <h3 class="font-semibold text-blue-800 font-kaisei">1-3. 初動：メール配信 & データ受信</h3>
+                        <p>1日朝: 手当申請メール配信 (<span class="marker-highlight">締切:3営業日</span>, 宛先:センター長)</p>
+                        <p>~5日: メーカーデータ受信 (原様より)</p>
+                        <p>メーカーデータを配信 (<span class="marker-highlight">※大至急</span>)</p>
+                    </li>
+                     <li class="ml-6">
+                        <span class="absolute flex items-center justify-center w-8 h-8 bg-green-100 rounded-full -left-4 ring-4 ring-white">
+                            <i class="fas fa-check-circle text-green-600"></i>
+                        </span>
+                        <h3 class="font-semibold text-green-800 font-kaisei">4-6. 照合 & 集計 & チェック</h3>
+                        <p>申請データとメーカーデータを<span class="marker-highlight">照合</span></p>
+                        <p>集計フォーマットで<span class="marker-highlight">集計</span> <i class="fas fa-calculator ml-1 text-gray-500"></i></p>
+                        <p>申請用紙と<span class="marker-highlight">チェック</span> (検出用シート)</p>
+                    </li>
+                     <li class="ml-6">
+                        <span class="absolute flex items-center justify-center w-8 h-8 bg-purple-100 rounded-full -left-4 ring-4 ring-white">
+                            <i class="fas fa-paper-plane text-purple-600"></i>
+                        </span>
+                        <h3 class="font-semibold text-purple-800 font-kaisei">7. 総務部へ送信</h3>
+                        <p>手当集計データを総務部へ送信</p>
+                        <p><span class="marker-highlight">締切: 10日前後</span> <i class="fas fa-calendar-alt ml-1 text-gray-500"></i></p>
+                    </li>
+                    <li class="ml-6">
+                        <span class="absolute flex items-center justify-center w-8 h-8 bg-red-100 rounded-full -left-4 ring-4 ring-white">
+                            <i class="fas fa-database text-red-600"></i>
+                        </span>
+                        <h3 class="font-semibold text-red-800 font-kaisei">8-9. データ返送 & 保存 (※データ)</h3>
+                        <p>※データ確認 → OKなら原様へ返送 / NGなら修正して返送</p>
+                        <p>※データを集計 → <span class="marker-highlight">Excel</span>に保存 (緊急ロードサービス運営費用〇月:入金シート) <i class="fas fa-file-excel ml-1 text-green-500"></i></p>
+                         <div class="speech-bubble mt-4">
+                            <h4 class="font-semibold text-sm text-purple-800 mb-2"><i class="fas fa-info-circle mr-1"></i>ステップ8 関連作業</h4>
+                            <ul class="list-disc ml-4 text-xs space-y-1">
+                                <li>請求明細書(正)に<span class="marker-highlight">押印</span> <i class="fas fa-stamp ml-1"></i></li>
+                                <li>夜間緊急修理実施補助費請求書(控)</li>
+                                <li>戦略拠点補助費請求<span class="marker-highlight">算出</span></li>
+                                <li>上記3点を原さんへ送付 (<span class="marker-highlight">PDF</span>で保存 <i class="fas fa-file-pdf ml-1"></i>)</li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="ml-6">
+                        <span class="absolute flex items-center justify-center w-8 h-8 bg-yellow-100 rounded-full -left-4 ring-4 ring-white">
+                            <i class="fas fa-dollar-sign text-yellow-600"></i>
+                        </span>
+                        <h3 class="font-semibold text-yellow-800 font-kaisei">10-11. 売上計上 & 記入</h3>
+                        <p>15日頃: 入金シートデータを<span class="marker-highlight">PROPS</span>で売上</p>
+                        <div class="highlight-box">
+                           <p class="font-bold text-red-600"><i class="fas fa-map-marker-alt mr-1"></i> ☆京都SCと洛南SCで<span class="marker-highlight">分ける！</span></p>
+                        </div>
+                        <p>PROPS売上情報(リペア,金額)を「夜間緊急補助費〇月」に<span class="marker-highlight">記入</span> <i class="fas fa-pencil ml-1"></i></p>
+                    </li>
+                     <li class="ml-6">
+                        <span class="absolute flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-full -left-4 ring-4 ring-white">
+                            <i class="fas fa-file-invoice-dollar text-indigo-600"></i>
+                        </span>
+                        <h3 class="font-semibold text-indigo-800 font-kaisei">12-14. 請求データ処理 & 経理報告</h3>
+                        <p>25日前後: 原様よりメール受信 (依頼請求データ)</p>
+                        <p>データ加工 → 支払いシートに反映</p>
+                        <p>運営費用 & 補助費を経理部へ<span class="marker-highlight">メール報告</span> <i class="fas fa-envelope-open-text ml-1"></i></p>
+                        <p><span class="marker-highlight">締切: 次月10日まで</span> <i class="fas fa-calendar-check ml-1"></i></p>
+                    </li>
+                </ol>
+            </div>
+
+        </main>
+
+        <footer class="footer font-zen">
+            出典: 社内資料 | 作成日: 2025年5月12日 | グラフィックレコーディング風インフォグラフィック by Gemini
+        </footer>
+
+    </div>
+
+</body>
+</html>
